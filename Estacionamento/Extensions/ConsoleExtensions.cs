@@ -2,7 +2,6 @@
 {
     public static class ConsoleExtensions
     {
-
         public static void MenuPrincipal()
         {
             Console.WriteLine("\nO que gostaria de fazer agora? Selecione uma Opção:\n");

@@ -1,5 +1,4 @@
-﻿using Estacionamento.Enums;
-using Estacionamento.Extensions;
+﻿using Estacionamento.Extensions;
 using Estacionamento.Models;
 using Estacionamento.Services;
 
@@ -12,7 +11,13 @@ class Program
 
     private static void SistemaPrincipal()
     {
-        Console.WriteLine("Bem vindo!");
+        Console.WriteLine("################################################");
+        Console.WriteLine("################################################");
+        Console.WriteLine("#                                              #");
+        Console.WriteLine("#   Estacionamento Rotativo. Seja bem vindo!   #");
+        Console.WriteLine("#                                              #");
+        Console.WriteLine("################################################");
+        Console.WriteLine("################################################");
 
         Thread.Sleep(3000);
 
@@ -58,7 +63,8 @@ class Program
                 }
                 else
                 {
-                    InsereVeiculo(vagas);
+                    VeiculosService.InserirVeiculo(vagas);
+                    Thread.Sleep(2000);
                 }
                 return true;
 
@@ -70,7 +76,8 @@ class Program
                 }
                 else
                 {
-                    RemoveVeiculo(vagas);
+                    VeiculosService.RemoverVeiculo(vagas);
+                    Thread.Sleep(2000);
                 }
                 return true;
 
@@ -86,205 +93,7 @@ class Program
 
             case 5:
             default:
-                Console.ReadKey();
                 return false;
         }
     }
-
-    private static void RemoveVeiculo()
-    {
-        ConsoleExtensions.ExibeMenuOpçõesVeiculo();
-
-        int opcao = int.Parse(Console.ReadLine());
-
-        switch (opcao)
-        {
-            case 1:
-                RemoverVeiculo();
-                Thread.Sleep(3000);
-                MenuPrincipal();
-                break;
-
-            case 2:
-                RemoverVeiculo();
-                Thread.Sleep(3000);
-                MenuPrincipal();
-                break;
-
-            case 3:
-                RemoverVeiculo();
-                Thread.Sleep(3000);
-                MenuPrincipal();
-                break;
-
-            case 4:
-            default:
-                MenuPrincipal();
-                break;
-        }
-    }
-
-    private static void RemoverVeiculo()
-    {
-        Console.WriteLine("\n Informe a placa do veículo: \n");
-
-        string placa = Console.ReadLine();
-
-        List<Vaga> liberarVagas = vagas.Where(v => v.Veiculo?.Placa == placa).ToList();
-
-        if (liberarVagas.Any())
-        {
-            foreach (var vaga in liberarVagas)
-            {
-                vaga.Veiculo = null;
-            }
-
-            Console.WriteLine("\nVeículo removido com sucesso!\n");
-        }
-        else
-        {
-            Console.WriteLine("\nVeículo não foi encontrado no estacionamento!\n");
-        }
-    }
-
-    private static void InsereVeiculo(List<Vaga> vagas)
-    {
-        ConsoleExtensions.ExibeMenuOpçõesVeiculo();
-
-        int opcao = int.Parse(Console.ReadLine());
-
-        switch (opcao)
-        {
-            case 1:
-                InserirVeiculo(Tipo.Moto);
-                Thread.Sleep(3000);
-                MenuPrincipal();
-                break;
-
-            case 2:
-                InserirVeiculo(Tipo.Carro);
-                Thread.Sleep(3000);
-                MenuPrincipal();
-                break;
-
-            case 3:
-                InserirVeiculo(Tipo.Van);
-                Thread.Sleep(3000);
-                MenuPrincipal();
-                break;
-
-            default:
-                MenuPrincipal();
-                break;
-        }
-
-    }
-
-   
-
-    private static void InserirVeiculo(Tipo tipo)
-    {
-        Console.WriteLine("\nInforme a placa do veículo: \n");
-
-        string placa = Console.ReadLine();
-
-        switch (tipo)
-        {
-            case Tipo.Moto:
-                InserirMoto(placa);
-                break;
-            case Tipo.Carro:
-                InserirCarro(placa);
-                break;
-            case Tipo.Van:
-                InserirVan(placa);
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    private static void InserirMoto(string placa)
-    {
-        Moto moto = new(placa);
-
-        if (vagas.Any(m => m.Tipo == Tipo.Moto && m.Veiculo == null))
-        {
-
-            Vaga vagaDisponivel = vagas.First(v => v.Tipo == Tipo.Moto && v.Veiculo == null);
-            vagaDisponivel.Veiculo = moto;
-            Console.WriteLine("\nVeículo inserido com sucesso!\n");
-        }
-
-        else if (vagas.Any(m => m.Tipo == Tipo.Carro && m.Veiculo == null))
-        {
-            Vaga vagaDisponivel = vagas.First(v => v.Tipo == Tipo.Carro && v.Veiculo == null);
-            vagaDisponivel.Veiculo = moto;
-            Console.WriteLine("\nVeículo inserido com sucesso!\n");
-        }
-
-        else if (vagas.Any(m => m.Tipo == Tipo.Van && m.Veiculo == null))
-        {
-            Vaga vagaDisponivel = vagas.First(v => v.Tipo == Tipo.Van && v.Veiculo == null);
-            vagaDisponivel.Veiculo = moto;
-            Console.WriteLine("\nVeículo inserido com sucesso!\n");
-        }
-        else
-        {
-            Console.WriteLine("\nNão há vagas para o veículo no momento!\n");
-        }
-    }
-
-    private static void InserirCarro(string placa)
-    {
-        Carro carro = new(placa);
-
-        if (vagas.Any(m => m.Tipo == Tipo.Carro && m.Veiculo == null))
-        {
-            Vaga vagaDisponivel = vagas.First(v => v.Tipo == Tipo.Carro && v.Veiculo == null);
-            vagaDisponivel.Veiculo = carro;
-            Console.WriteLine("\nVeículo inserido com sucesso!\n");
-        }
-
-        else if (vagas.Any(m => m.Tipo == Tipo.Van && m.Veiculo == null))
-        {
-            Vaga vagaDisponivel = vagas.First(v => v.Tipo == Tipo.Van && v.Veiculo == null);
-            vagaDisponivel.Veiculo = carro;
-            Console.WriteLine("\nVeículo inserido com sucesso!\n");
-        }
-        else
-        {
-            Console.WriteLine("\nNão há vagas para o veículo no momento!\n");
-        }
-    }
-
-    private static void InserirVan(string placa)
-    {
-        Van van = new(placa);
-
-        if (vagas.Any(m => m.Tipo == Tipo.Van && m.Veiculo == null))
-        {
-            Vaga vagaDisponivel = vagas.First(v => v.Tipo == Tipo.Van && v.Veiculo == null);
-            vagaDisponivel.Veiculo = van;
-            Console.WriteLine("\nVeículo inserido com sucesso!\n");
-        }
-
-        else if (vagas.Count(m => m.Tipo == Tipo.Carro && m.Veiculo == null) >= 3)
-        {
-            List<Vaga> vagasDisponiveis = vagas.Where(v => v.Tipo == Tipo.Carro && v.Veiculo == null).Take(3).ToList();
-            foreach (var vaga in vagasDisponiveis)
-            {
-                vaga.Veiculo = van;
-            }
-
-            Console.WriteLine("\nVeículo inserido com sucesso!\n");
-        }
-        else
-        {
-            Console.WriteLine("\nNão há vagas para o veículo no momento!\n");
-        }
-    }
-
-   
 }
